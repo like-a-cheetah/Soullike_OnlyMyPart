@@ -1,0 +1,23 @@
+.vs/
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# 프로젝트 로그 및 임시 파일
+*.log
+*.vsconfig
+
+# 외부 툴 생성 파일
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# macOS, Windows 시스템 파일
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code 설정
+.vscode/

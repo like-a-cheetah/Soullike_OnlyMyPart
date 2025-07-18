@@ -64,4 +64,6 @@ private:
 	float PredictionTime = 5.0f;
 
 	class UAISense_Prediction* AISense_Prediction;
+
+	FTimerHandle MissTargetTimer;
 };

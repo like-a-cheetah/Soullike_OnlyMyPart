@@ -137,13 +137,15 @@ void AAIController_Monster::OnTargetDetected(AActor* Actor, FAIStimulus const St
             {
                 Blackboard->SetValueAsObject(BBKEY_TARGET, Actor);
                 UE_LOG(LogTemp, Log, TEXT("Sight"));
+
+                GetWorld()->GetTimerManager().ClearTimer(MissTargetTimer);
             }
             else
             {
-                AISense_Prediction->RequestPawnPredictionEvent(GetPawn(), Cast<AActor>(Blackboard->GetValueAsObject(BBKEY_TARGET)), 1.0f);
-                Blackboard->SetValueAsObject(BBKEY_TARGET, nullptr);
-                Blackboard->SetValueAsVector(BBKEY_STIMULUSPOS, Stimulus.StimulusLocation);
-                UE_LOG(LogTemp, Log, TEXT("SightEnd"));
+                GetWorld()->GetTimerManager().SetTimer(MissTargetTimer, [this, Stimulus]() {
+                    AISense_Prediction->RequestPawnPredictionEvent(GetPawn(), Cast<AActor>(Blackboard->GetValueAsObject(BBKEY_TARGET)), 1.0f);
+                    Blackboard->SetValueAsObject(BBKEY_TARGET, nullptr);
+                    }, 3.f, false);
             }
         }
     }
@@ -161,6 +163,10 @@ void AAIController_Monster::OnTargetDetected(AActor* Actor, FAIStimulus const St
         {
             Blackboard->SetValueAsVector(BBKEY_STIMULUSPOS, Stimulus.StimulusLocation);
             UE_LOG(LogTemp, Log, TEXT("Predict"));
+        }
+        else
+        {
+            Blackboard->ClearValue(BBKEY_STIMULUSPOS);
         }
     }
 }

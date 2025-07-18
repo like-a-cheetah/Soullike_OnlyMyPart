@@ -61,7 +61,7 @@ AEnemy::AEnemy()
 		HPBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}*/
 
-	//AIControllerClass = AAIController_Monster::StaticClass();
+	AIControllerClass = AAIController_Monster::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	LWeaponCollision = CreateDefaultSubobject<UCapsuleComponent>(TEXT("LWeapon"));
@@ -298,28 +298,24 @@ void AEnemy::EndOverlapLWeapon(UPrimitiveComponent* OverlappedComponent, AActor*
 
 void AEnemy::BeginOverlapRWeapon(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//if (Cast<AGreyStone>(OtherActor))
-	//{
-	//	FDamageEvent DamageEvent;
-	//	OtherActor->TakeDamage(5.0f, DamageEvent, GetController(), this);
+	if (OtherActor == this) return;
 
-	//	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	//	if (AnimInstance->GetCurrentActiveMontage()->GetName().Equals(TEXT("MT_Stampede_Knockup")))
-	//	{
-	//		FVector Direction = OtherActor->GetActorLocation() -GetActorLocation();
-	//		Direction = { Direction.X, Direction.Y, 0.0f };
-	//		Direction *= 10.0f;
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance->GetCurrentActiveMontage()->GetName().Equals(TEXT("MT_Stampede_Knockup")))
+	{
+		FVector Direction = OtherActor->GetActorLocation() - GetActorLocation();
+		Direction.Z = 0;
+		Direction.Normalize();
+		Direction *= 1000.0f;
 
-	//if(Cast<ACharacter>(OtherActor))
-		//Cast<ACharacter>(OtherActor)->LaunchCharacter(FVector(Direction.X, Direction.Y, 600.0f), true, true);
+		if (Cast<ACharacter>(OtherActor))
+		{
+			Cast<ACharacter>(OtherActor)->LaunchCharacter(FVector(Direction.X, Direction.Y, 600.0f), true, true);
 
-			//GetActorLocation();
-	//		bIsPlayerHitted = true;
-	//		UE_LOG(LogTemp, Log, TEXT("에어본"));
-	//	}
-
-	//	UE_LOG(LogTemp, Log, TEXT("40 데미지줌!"));
-	//}
+			GetActorLocation();
+			bIsPlayerHitted = true;
+		}
+	}
 }
 
 void AEnemy::EndOverlapRWeapon(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

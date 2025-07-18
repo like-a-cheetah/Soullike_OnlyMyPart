@@ -34,16 +34,14 @@ EBTNodeResult::Type UBTTask_OffAlert::ExecuteTask(UBehaviorTreeComponent& OwnerC
 		AIPawn->OffAlertMovement();
 
 		FTimerHandle SetWalkableTimer;
-		FSetAlertFinished SetAlertFinished;
-		SetAlertFinished.BindLambda(
-			[&]()
-		{
-			OwnerComp.GetBlackboardComponent()->SetValueAsBool(BBKEY_ISALERT, false);
-			OwnerComp.GetBlackboardComponent()->SetValueAsBool(BBKEY_GOHOME, true);
-			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-		}
-		);
-//		GetWorld()->GetTimerManager().SetTimer(SetWalkableTimer, SetAlertFinished, 1.5f, false);
+		FTimerDelegate SetAlertFinished;
+		SetAlertFinished.BindLambda([this, &OwnerComp]() // this가 안전하게 살아있어야 함
+			{
+				OwnerComp.GetBlackboardComponent()->SetValueAsBool(BBKEY_ISALERT, false);
+				OwnerComp.GetBlackboardComponent()->SetValueAsBool(BBKEY_STIMULUSPOS, false);
+				FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+			});
+		GetWorld()->GetTimerManager().SetTimer(SetWalkableTimer, SetAlertFinished, 1.5f, false);
 	}
 
 	return EBTNodeResult::InProgress;
