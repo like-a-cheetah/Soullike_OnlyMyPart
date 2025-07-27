@@ -11,8 +11,6 @@ Soullike 게임 4인 프로젝트입니다.
 
 UE5.1, C++
 
-## 출처
-
 # 기능 동작 영상
 
 [![](http://img.youtube.com/vi/d2lnfB9jVWg/0.jpg)](https://youtu.be/d2lnfB9jVWg)
