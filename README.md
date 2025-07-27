@@ -13,10 +13,10 @@ UE5.1, C++
 
 ## 출처
 
-# 인게임 풀영상
+# 기능 동작 영상
 
-[![](http://img.youtube.com/vi/2MWUPr9oNmQ/0.jpg)](https://youtu.be/2MWUPr9oNmQ)
-
+[![](http://img.youtube.com/vi/d2lnfB9jVWg/0.jpg)](https://youtu.be/d2lnfB9jVWg)
+https://youtu.be/
 # 주요 컨텐츠 사진
 
 # 기술 요소
